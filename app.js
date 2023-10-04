@@ -26,8 +26,8 @@ app.use("/products",productRouter);
 app.get("/",(req,res)=>{
     res.send("Nice Working"); 
 })
-
 app.use(errorMiddleWare);
+
 
 
 

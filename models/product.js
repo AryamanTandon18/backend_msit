@@ -43,7 +43,8 @@ const productSchema = mongoose.Schema({
         type:Number,
         default:0
     },
-    reviews:{
+    reviews:[
+        {
         name:{
             type:String,
             required:true
@@ -56,8 +57,16 @@ const productSchema = mongoose.Schema({
             type:String,
             required:true
         }
+}
+],   
+    user:{
+        type:mongoose.Schema.ObjectId,
+        ref:"user",
+        required:true
     }
-},{
+
+},
+{
     timestamps: true
 })
 const Product = mongoose.model('Product',productSchema)

@@ -2,27 +2,31 @@ import { Users } from "../models/user.js"
 import bcrypt from 'bcrypt'
 // import jwt from 'jsonwebtoken'
 import { sendCookie } from "../utils/features.js";
+import { asyncHandler } from "../middleWares/AsyncErr.js";
 
-export const register = async(req,res,next)=>{
-   try {
-    const {name,email,password} = req.body;
-    let user = await Users.findOne({email})
-  
-    if(user){
-      return res.status(404).json({
-        message:"User already exist",
-        success: false,
-      })
-    }
-    const hashedPassword = await bcrypt.hash(password,10);
-    user = await Users.create({name,email,password:hashedPassword});
- 
-   sendCookie(res,user,"Registered Successfully")
-   } catch (error) {
-    next(error)
-   }
+export const register = asyncHandler(async(req,res,next)=>{
+   
+  const {name,email,password} = req.body;
+  let user = await Users.findOne({email})
 
-}
+  if(user){
+    return res.status(404).json({
+      message:"User already exist",
+      success: false,
+    })
+  }
+  const hashedPassword = await bcrypt.hash(password,10);
+  user = await Users.create({name,email,password:hashedPassword,
+  avatar:{
+    public_id:"this is sample id",
+    url:"profilePicUrl",
+  }
+  });
+
+ sendCookie(res,user,"Registered Successfully")
+ } )
+
+
 
 export const Login = async(req,res,next)=>{
  try {
