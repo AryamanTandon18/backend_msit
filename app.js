@@ -4,6 +4,7 @@ import productRouter from './routes/product.js'
 import {config} from 'dotenv'
 import cookieParser from 'cookie-parser';
 import { errorMiddleWare } from './middleWares/error.js';
+import eventRouter from './routes/event.js'
 export const app = express();
 import cors from 'cors'
 
@@ -22,6 +23,7 @@ app.use(cors({
 
 app.use("/users",userRouter);
 app.use("/products",productRouter);
+app.use("/event",eventRouter);
 
 app.get("/",(req,res)=>{
     res.send("Nice Working"); 
